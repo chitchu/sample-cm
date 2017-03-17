@@ -1,11 +1,14 @@
 {
   "name": "sample-cm",
   "version": "0.1.0",
+  "homepage": "https://chitchu.github.io/sample-cm/",
   "private": true,
   "devDependencies": {
+    "gh-pages": "^0.12.0",
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "develop": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
@@ -20,6 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
