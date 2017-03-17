@@ -2,6 +2,8 @@ import React from 'react';
 
 import upvoteIcon from '../images/upvote.svg';
 import downvoteIcon from '../images/downvote.svg';
+import CharacterProperty from './CharacterProperty';
+import Exist from '../hoc/Exist';
 
 import './CharacterDetails.css';
 
@@ -12,19 +14,27 @@ const CharacterDetails = (
     skin_color,
     birth_year,
     hair_color,
+    eye_color,
     height,
     mass,
     note,
     characterId,
     score,
-    onChange
+    species,
+    speciesResolved,
+    starships,
+    starshipsResolved,
+    homeworldResolved,
+    films,
+    filmsResolved,
+    onChange,
+    onPopulatePerson
   }
 ) =>
   {
     return (
       <div className="character-details">
         <div className="intro">
-
           <div className="voting-box">
             <button onClick={evt => onChange((++score), characterId, 'score')}>
               <img src={upvoteIcon} alt="Up vote" />
@@ -39,12 +49,48 @@ const CharacterDetails = (
           <h1>{name}</h1>
         </div>
         <hr />
-        <p>Gender: {gender}</p>
-        <p>Skin color: {skin_color}</p>
-        <p>Birth year: {birth_year}</p>
-        <p>Hair color: {hair_color}</p>
-        <p>Height: {height}</p>
-        <p>Mass: {mass}</p>
+        <div>
+          <p>Height: {height}</p>
+          <p>Mass: {mass}</p>
+          <p>Hair color: {hair_color}</p>
+          <p>Skin color: {skin_color}</p>
+          <p>Gender: {gender}</p>
+          <p>Eye color: {eye_color}</p>
+          <p>Birth year: {birth_year}</p>
+          <p>
+            Homeworld: {homeworldResolved}
+          </p>
+          <p>
+            Films: <CharacterProperty
+              onPopulatePerson={() => {
+                onPopulatePerson(characterId, 'filmsResolved', films);
+              }}
+              characterId={characterId}
+              prop={films}
+              resolved={filmsResolved}
+            />
+          </p>
+          <p>
+            Species: <CharacterProperty
+              onPopulatePerson={() => {
+                onPopulatePerson(characterId, 'speciesResolved', species);
+              }}
+              characterId={characterId}
+              prop={species}
+              resolved={speciesResolved}
+            />
+          </p>
+          <p>
+            Starships: <CharacterProperty
+              onPopulatePerson={() => {
+                onPopulatePerson(characterId, 'starshipsResolved', starships);
+              }}
+              characterId={characterId}
+              prop={starships}
+              resolved={starshipsResolved}
+            />
+          </p>
+        </div>
         <hr />
         <label htmlFor="notes">Notes</label>
         <textarea
@@ -56,4 +102,4 @@ const CharacterDetails = (
     );
   };
 
-export default CharacterDetails;
+export default Exist(CharacterDetails);

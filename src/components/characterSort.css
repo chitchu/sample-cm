@@ -1,0 +1,6 @@
+.character-sort {
+  padding: 1rem 0;
+}
+.character-sort > div:not(:last-child) {
+  margin:1rem 0;
+}

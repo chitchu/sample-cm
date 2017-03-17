@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CharacterDetails from './CharacterDetails';
-import { updatePerson } from '../ducks';
+import { updatePerson, populatePerson } from '../ducks';
 
 const mapState = (
   { content: { entities } },
@@ -10,6 +10,9 @@ const mapState = (
 const mapDispatch = dispatch => ({
   onChange: (value, characterId, prop) => {
     dispatch(updatePerson({ value, characterId, prop }));
+  },
+  onPopulatePerson: (characterId, targetProp, url) => {
+    dispatch(populatePerson(characterId, targetProp, url));
   }
 });
 

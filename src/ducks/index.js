@@ -49,35 +49,42 @@ const ui = handleActions(
 const content = handleActions(
   {
     [contentLoaded]: (state, { payload: { entities, keys } }) => {
+      const mergedEntities = { ...state.entities, ...entities };
       return {
         ...state,
-        entities,
-        keys,
+        entities: { ...state.entities, ...entities },
+        keys: [ ...state.keys, ...keys ],
         filteredKeys: filterAndSort(
-          entities,
+          mergedEntities,
           state.sortBy,
           state.order,
           state.filterString
         )
       };
     },
-    [updatePerson]: (state, { payload: { characterId, value, prop } }) => {
-      const character = state.entities[characterId];
-      const entities = {
-        ...state.entities,
-        [characterId]: { ...character, [prop]: value }
-      };
-      return {
-        ...state,
-        entities,
-        filteredKeys: filterAndSort(
+    [updatePerson]: (state, { payload: { characterId, value, prop, type } }) =>
+      {
+        const character = state.entities[characterId];
+        const entities = {
+          ...state.entities,
+          [characterId]: {
+            ...character,
+            [prop]: type === 'append'
+              ? character[prop] ? character[prop].concat(value) : [ value ]
+              : value
+          }
+        };
+        return {
+          ...state,
           entities,
-          state.sortBy,
-          state.order,
-          state.filterString
-        )
-      };
-    },
+          filteredKeys: filterAndSort(
+            entities,
+            state.sortBy,
+            state.order,
+            state.filterString
+          )
+        };
+      },
     [filter]: (state, { payload }) => ({
       ...state,
       filterString: payload,
@@ -139,10 +146,38 @@ store.subscribe(() => {
 
 const loadCurrentPage = () => (dispatch, getState) => {
   const { api: { base } } = getState();
-  fetch(`${base}`)
+  fetch(base)
     .then(xhr => xhr.json())
     .then(response => dispatch(contentLoaded(response)))
     .catch(console.error); // maybe some error handling? nah...
 };
+const loadMore = () => (dispatch, getState) => {
+  const { api: { next } } = getState();
+  fetch(next)
+    .then(xhr => xhr.json())
+    .then(response => dispatch(contentLoaded(response)))
+    .catch(console.error);
+};
+const populatePerson = (characterId, prop, endpoint) => dispatch => {
+  const type = endpoint instanceof Array ? 'append' : 'update';
+  [].concat(endpoint).forEach(url => {
+    fetch(url)
+      .then(xhr => xhr.json())
+      .then(({ name, title }) => {
+        dispatch(
+          updatePerson({ characterId, value: name || title, prop, type })
+        );
+      })
+      .catch(console.error);
+  });
+};
 
-export { store as default, loadCurrentPage, updatePerson, filter, sort };
+export {
+  store as default,
+  loadCurrentPage,
+  loadMore,
+  updatePerson,
+  filter,
+  sort,
+  populatePerson
+};
