@@ -1,0 +1,39 @@
+.character-list {
+  padding: 1rem 0 1rem;
+  max-height: 600px;
+  overflow: auto;
+}
+.character-list ul {
+  list-style: none;
+  padding: 0;
+}
+.character-list ul > li {
+  margin: 0;
+  padding: 0.4rem 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.character-list ul > li > .name a {
+  text-decoration: none;
+  margin: 0;
+  color: cornflowerblue;
+}
+
+.character-list ul > li > .name small, .character-list ul > li > .name span {
+  color: lightgray;
+  margin-right: 0.4rem;
+}
+.character-list ul > li > .name h1 {
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 0;
+}
+.character-list button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+}
