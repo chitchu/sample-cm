@@ -146,14 +146,15 @@ store.subscribe(() => {
 
 const loadCurrentPage = () => (dispatch, getState) => {
   const { api: { base } } = getState();
-  fetch(base.replace(/http/g, 'https'))
+
+  fetch(base.replace(/http:/g, 'https:'))
     .then(xhr => xhr.json())
     .then(response => dispatch(contentLoaded(response)))
     .catch(console.error); // maybe some error handling? nah...
 };
 const loadMore = () => (dispatch, getState) => {
   const { api: { next } } = getState();
-  fetch(next.replace(/http/g, 'https'))
+  fetch(next.replace(/http:/g, 'https:'))
     .then(xhr => xhr.json())
     .then(response => dispatch(contentLoaded(response)))
     .catch(console.error);
@@ -161,7 +162,7 @@ const loadMore = () => (dispatch, getState) => {
 const populatePerson = (characterId, prop, endpoint) => dispatch => {
   const type = endpoint instanceof Array ? 'append' : 'update';
   [].concat(endpoint).forEach(url => {
-    fetch(url.replace(/http/g, 'https'))
+    fetch(url.replace(/http:/g, 'https:'))
       .then(xhr => xhr.json())
       .then(({ name, title }) => {
         dispatch(
