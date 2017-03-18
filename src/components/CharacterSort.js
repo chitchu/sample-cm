@@ -1,4 +1,6 @@
 import React from 'react';
+import { Dropdown } from 'semantic-ui-react';
+
 import './characterSort.css';
 
 const CharacterSort = (
@@ -9,24 +11,24 @@ const CharacterSort = (
       <div className="character-sort">
         <small>Sort by:</small>
         <div>
-          <select
+          <Dropdown
             value={sortBy}
-            onChange={evt => onUpdateSort(evt.target.value, order)}
-          >
-            {sortingOptions.map(({ value, label }, key) => (
-              <option key={key} value={value}>{label}</option>
-            ))}
-          </select>
+            onChange={(evt, { value }) => onUpdateSort(value, order)}
+            options={sortingOptions.map(({ value, label }) => ({
+              text: label,
+              value
+            }))}
+          />
         </div>
         <div>
-          <select
+          <Dropdown
             value={order}
-            onChange={evt => onUpdateSort(sortBy, evt.target.value)}
-          >
-            {orderOptions.map(({ value, label }, key) => (
-              <option key={key} value={value}>{label}</option>
-            ))}
-          </select>
+            onChange={(evt, { value }) => onUpdateSort(sortBy, value)}
+            options={orderOptions.map(({ value, label }) => ({
+              text: label,
+              value
+            }))}
+          />
         </div>
       </div>
     );
