@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 const { Row, Column } = Grid;
-import Loader from '../hoc/Loader';
 import CharacterList from './CharacterListContainer';
 
 const Root = () => {
@@ -16,4 +15,4 @@ const Root = () => {
   );
 };
 
-export default Loader(Root);
+export default Root;

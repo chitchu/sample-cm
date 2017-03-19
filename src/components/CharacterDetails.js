@@ -5,7 +5,6 @@ import {
   Form,
   Grid,
   Icon,
-  Image,
   Label,
   List
 } from 'semantic-ui-react';
@@ -16,14 +15,13 @@ const { Row, Column } = Grid;
 const { TextArea } = Form;
 const { Section, Divider } = Breadcrumb;
 
+import InlineLoader from '../hoc/InlineLoader';
+
 import CharacterProperty from './CharacterProperty';
 import CharacterPhoto from './CharacterPhoto';
-
-import Exist from '../hoc/Exist';
+const CharacterPropertWithLoader = InlineLoader(CharacterProperty);
 
 import './CharacterDetails.css';
-
-import defaultPhoto from '../images/default.jpg';
 
 const CharacterDetails = (
   {
@@ -145,7 +143,7 @@ const CharacterDetails = (
                             <Item>
                               <Header>Films</Header>
                               <Content>
-                                <CharacterProperty
+                                <CharacterPropertWithLoader
                                   onPopulatePerson={() => {
                                     onPopulatePerson(
                                       characterId,
@@ -162,7 +160,7 @@ const CharacterDetails = (
                             <Item>
                               <Header>Species</Header>
                               <Content>
-                                <CharacterProperty
+                                <CharacterPropertWithLoader
                                   onPopulatePerson={() => {
                                     onPopulatePerson(
                                       characterId,
@@ -179,7 +177,7 @@ const CharacterDetails = (
                             <Item>
                               <Header>Starships</Header>
                               <Content>
-                                <CharacterProperty
+                                <CharacterPropertWithLoader
                                   onPopulatePerson={() => {
                                     onPopulatePerson(
                                       characterId,
@@ -220,4 +218,4 @@ const CharacterDetails = (
     );
   };
 
-export default Exist(CharacterDetails);
+export default CharacterDetails;

@@ -177,28 +177,38 @@ const populatePerson = (characterId, prop, endpoint) => dispatch => {
       .catch(console.error);
   });
 };
-
+let queue = 0;
 const searchForPhoto = (id, name) => (dispatch, getState) => {
   const { api: { imageSearch } } = getState();
   const request = new Request(`${imageSearch}?q=${name}&count=1`, {
     headers: new Headers({
       // please don't kill me
-      'Ocp-Apim-Subscription-Key': '80fadb089f8d43d195499207177c07d2'
+      'Ocp-Apim-Subscription-Key': '7415893f67a948769a788563c05b5243'
     })
   });
-
-  fetch(request)
-    .then(xhr => xhr.json())
-    .then(({ value }) => {
-      dispatch(
-        updatePerson({
-          characterId: id,
-          value: value.length ? value[0].thumbnailUrl : defaultPhoto,
-          prop: 'photo'
+  const delay = 200 * queue;
+  queue++;
+  // Bing has a 5 requests per second rule.
+  setTimeout(
+    () => {
+      queue--;
+      fetch(request)
+        .then(xhr => xhr.json())
+        .then(({ value }) => {
+          dispatch(
+            updatePerson({
+              characterId: id,
+              value: value && value.length
+                ? value[0].thumbnailUrl
+                : defaultPhoto,
+              prop: 'photo'
+            })
+          );
         })
-      );
-    })
-    .catch(console.error);
+        .catch(console.error);
+    },
+    delay
+  );
 };
 
 export {

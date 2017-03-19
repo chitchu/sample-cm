@@ -5,6 +5,7 @@ const { Row, Column } = Grid;
 import { Link } from 'react-router-dom';
 
 import PhotoLoader from '../hoc/PhotoLoader';
+import InlineLoader from '../hoc/InlineLoader';
 
 import CharacterSearch from './CharacterSearchContainer';
 import CharacterSort from './CharacterSortContainer';
@@ -12,6 +13,7 @@ import CharacterProperty from './CharacterProperty';
 import CharacterPhoto from './CharacterPhoto';
 
 const CharacterPhotoWithLoader = PhotoLoader(CharacterPhoto);
+const CharacterPropertyWithLoader = InlineLoader(CharacterProperty);
 
 import './CharacterList.css';
 
@@ -58,7 +60,7 @@ const CharacterList = (
                   description={
                     (
                       <div className="description">
-                        Homeworld: <CharacterProperty
+                        Homeworld: <CharacterPropertyWithLoader
                           onPopulatePerson={() => {
                             onPopulatePerson(
                               character.id,
