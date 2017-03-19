@@ -5,16 +5,18 @@ import fetch from 'isomorphic-fetch';
 import { loadState, saveState } from '../modules/Localstore';
 import { filterAndSort } from '../modules/Helpers';
 
+import defaultPhoto from '../images/default.jpg';
+
 const contentLoaded = createAction('CONTENT_LOADED', response => {
   // normalize result
   const entities = response.results.reduce(
     (current, next, index) => {
-      // we "tokenize" an id by kebab-casing the name + birthday.
+      // we "tokenize" an id by kebab-casing the name
       // Yeah! that should be unique enough... I think...
       const id = `${next.name.replace(/\s+/g, '-').toLowerCase()}`;
       return {
         ...current,
-        [window.encodeURI(id)]: { ...next, note: '', score: 0 }
+        [window.encodeURI(id)]: { ...next, note: '', score: 0, photo: '' }
       };
     },
     {}
@@ -124,7 +126,10 @@ const api = handleActions(
       prev
     })
   },
-  { base: 'https://swapi.co/api/people/?page=1' }
+  {
+    base: 'https://swapi.co/api/people/?page=1',
+    imageSearch: 'https://api.cognitive.microsoft.com/bing/v5.0/images/search'
+  }
 );
 
 const reducers = combineReducers({ ui, content, api });
@@ -173,6 +178,29 @@ const populatePerson = (characterId, prop, endpoint) => dispatch => {
   });
 };
 
+const searchForPhoto = (id, name) => (dispatch, getState) => {
+  const { api: { imageSearch } } = getState();
+  const request = new Request(`${imageSearch}?q=${name}&count=1`, {
+    headers: new Headers({
+      // please don't kill me
+      'Ocp-Apim-Subscription-Key': '80fadb089f8d43d195499207177c07d2'
+    })
+  });
+
+  fetch(request)
+    .then(xhr => xhr.json())
+    .then(({ value }) => {
+      dispatch(
+        updatePerson({
+          characterId: id,
+          value: value.length ? value[0].thumbnailUrl : defaultPhoto,
+          prop: 'photo'
+        })
+      );
+    })
+    .catch(console.error);
+};
+
 export {
   store as default,
   loadCurrentPage,
@@ -180,5 +208,6 @@ export {
   updatePerson,
   filter,
   sort,
-  populatePerson
+  populatePerson,
+  searchForPhoto
 };

@@ -1,17 +1,23 @@
 import React from 'react';
-import { Button, Card, Label, Icon, Image, Grid } from 'semantic-ui-react';
+import { Button, Card, Label, Icon, Grid } from 'semantic-ui-react';
 const { Group } = Card;
 const { Row, Column } = Grid;
 import { Link } from 'react-router-dom';
+
+import PhotoLoader from '../hoc/PhotoLoader';
+
 import CharacterSearch from './CharacterSearchContainer';
 import CharacterSort from './CharacterSortContainer';
 import CharacterProperty from './CharacterProperty';
+import CharacterPhoto from './CharacterPhoto';
+
+const CharacterPhotoWithLoader = PhotoLoader(CharacterPhoto);
+
 import './CharacterList.css';
-import defaultPhoto from '../images/default.jpg';
 
 // TODO: reduce redraw
 const CharacterList = (
-  { characters, hasNext, onPopulatePerson, onLoadMore }
+  { characters, hasNext, onPopulatePerson, onLoadMore, loadPhoto }
 ) => (
   <div className="character-list">
     <Grid>
@@ -31,7 +37,11 @@ const CharacterList = (
                   image={
                     (
                       <Link to={character.id}>
-                        <Image centered src={defaultPhoto} alt="Default" />
+                        <CharacterPhotoWithLoader
+                          photo={character.photo}
+                          onLoadPhoto={() =>
+                            loadPhoto(character.id, character.name)}
+                        />
                       </Link>
                     )
                   }

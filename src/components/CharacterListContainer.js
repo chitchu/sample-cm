@@ -1,5 +1,5 @@
 import CharacterList from '../components/CharacterList';
-import { populatePerson, loadMore } from '../ducks';
+import { populatePerson, loadMore, searchForPhoto } from '../ducks';
 
 import { connect } from 'react-redux';
 
@@ -15,7 +15,8 @@ const mapState = (
     id: key,
     score: entities[key].score,
     homeworld: entities[key].homeworld,
-    homeworldResolved: entities[key].homeworldResolved
+    homeworldResolved: entities[key].homeworldResolved,
+    photo: entities[key].photo
   })),
   hasNext: !!next
 });
@@ -24,9 +25,8 @@ const mapDispatch = dispatch => ({
   onPopulatePerson: (characterId, targetProp, url) => {
     dispatch(populatePerson(characterId, targetProp, url));
   },
-  onLoadMore: () => {
-    dispatch(loadMore());
-  }
+  onLoadMore: () => dispatch(loadMore()),
+  loadPhoto: (id, name) => dispatch(searchForPhoto(id, name))
 });
 
 export default connect(mapState, mapDispatch)(CharacterList);

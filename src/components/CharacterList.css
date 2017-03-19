@@ -3,7 +3,21 @@
 }
 .character-list .ui.card > a {
   background-color: #c5ccde;
-  min-height: 236px;
+  height: 236px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-list .ui.card > a > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  top: 0;
+  left: 0;
 }
 
 .character-list .ui.card > .content > a > h1 {

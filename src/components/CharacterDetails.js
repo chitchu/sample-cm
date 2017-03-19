@@ -17,6 +17,8 @@ const { TextArea } = Form;
 const { Section, Divider } = Breadcrumb;
 
 import CharacterProperty from './CharacterProperty';
+import CharacterPhoto from './CharacterPhoto';
+
 import Exist from '../hoc/Exist';
 
 import './CharacterDetails.css';
@@ -35,6 +37,7 @@ const CharacterDetails = (
     mass,
     note,
     characterId,
+    photo,
     score,
     species,
     speciesResolved,
@@ -53,7 +56,9 @@ const CharacterDetails = (
         <Grid>
           <Row>
             <Column width={3}>
-              <Image fluid centered src={defaultPhoto} alt="Default" />
+              <div className="photo-container">
+                <CharacterPhoto photo={photo} />
+              </div>
             </Column>
             <Column width={13}>
               <Grid>
