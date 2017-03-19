@@ -1,4 +1,5 @@
-const LOCALSTORAGE_PATH = 'swapi';
+import { version } from '../../package.json';
+const LOCALSTORAGE_PATH = `swapi${version}`;
 
 const loadState = () => {
   try {
