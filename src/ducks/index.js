@@ -186,7 +186,7 @@ const searchForPhoto = (id, name) => (dispatch, getState) => {
       'Ocp-Apim-Subscription-Key': '7415893f67a948769a788563c05b5243'
     })
   });
-  const delay = 200 * queue;
+  const delay = 300 * queue;
   queue++;
   // Bing has a 5 requests per second rule.
   setTimeout(
