@@ -1,6 +1,6 @@
 {
   "name": "sample-cm",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "homepage": "https://chitchu.github.io/sample-cm/",
   "private": true,
   "devDependencies": {
