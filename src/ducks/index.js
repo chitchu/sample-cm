@@ -180,7 +180,7 @@ const populatePerson = (characterId, prop, endpoint) => dispatch => {
 let queue = 0;
 const searchForPhoto = (id, name) => (dispatch, getState) => {
   const { api: { imageSearch } } = getState();
-  const request = new Request(`${imageSearch}?q=${name}&count=1`, {
+  const request = new Request(`${imageSearch}?q=sta wars ${name}&count=1`, {
     headers: new Headers({
       // please don't kill me
       'Ocp-Apim-Subscription-Key': '7415893f67a948769a788563c05b5243'
