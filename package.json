@@ -8,7 +8,6 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
-    "develop": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
